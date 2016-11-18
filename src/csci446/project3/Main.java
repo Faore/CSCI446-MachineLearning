@@ -84,7 +84,7 @@ public class Main {
         
         //Glass
         System.out.println(Glass.class.getSimpleName());
-        knn = new KNN(glass, glassTestingSet, Glass.classColumn, 8);
+        knn = new KNN(glass, glassTestingSet, Glass.classColumn, 51);
         String[] knnGlass = new String[glassTestingSet.size()];
         for(int i = 0; i < glassTestingSet.size(); i++) {
             knnGlass[i] = knn.classify(glassTestingSet.get(i));
@@ -99,7 +99,7 @@ public class Main {
         
         //Iris
         System.out.println(Iris.class.getSimpleName());
-        knn = new KNN(iris, irisTestingSet, Iris.classColumn, 5);
+        knn = new KNN(iris, irisTestingSet, Iris.classColumn, 7);
         String[] knnIris = new String[irisTestingSet.size()];
         for(int i = 0; i < irisTestingSet.size(); i++) {
             knnIris[i] = knn.classify(irisTestingSet.get(i));
