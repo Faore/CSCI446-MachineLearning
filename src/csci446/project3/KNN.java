@@ -42,8 +42,9 @@ public KNN(DataSet dataSet,  DataSet testSet, int classColumn, int k) throws Exc
         replace(dataSet);   //replace trues and falses with 1 and 0
         replace(testSet);   //replace trues and falses with 1 and 0     
 }
-
+    //classify a new point based off the classification of it's k nearest neighbors
     String classify(Data<?>[] get) {
+        Pairing[] distancePair = new Pairing[fullDataSet.size()];
         //get the distance from test point to each point dataset
         //set every value in doulbe to zero
         for(int i = 0; i< distance.length; i++){
@@ -57,18 +58,46 @@ public KNN(DataSet dataSet,  DataSet testSet, int classColumn, int k) throws Exc
                 } 
             }
         }
+        
         //every valuse in doulbe is now the sqaure root of the difference in variables squared
         for(int i = 0; i< distance.length; i++){
             distance[i] = sqrt(distance[i]);
             //System.out.println(distance[i]);
         }
-        Arrays.sort(distance);
-        //test print off distance
-        //for(int i = 0; i< distance.length; i++){
-        //    System.out.println(distance[i]);
+        
+        //Make an array of Pairing objects that contain the distance and the original position in distance[]
+        for(int i = 0; i<distancePair.length; i++){
+            distancePair[i] = new Pairing(i, distance[i]);
+        }
+        
+        //sort distancePair by distance
+        Arrays.sort(distancePair);
+        
+        //print distance and id pairs
+        //for(int i = 0; i< distancePair.length; i++){
+        //    System.out.println(distancePair[i].distance + " " + distancePair[i].id);
         //}
         
-        return classes[1];  //returns the first of the listed classes
+        //Compare the k nearest neighbors
+        int mostCommon = 0;
+        int count;
+        int last =0;
+        for(int i = 0; i<classes.length; i++){
+            count = 0;
+            for(int j = 0; j<k; j++){
+                if(fullDataSet.get(distancePair[j].id)[classColumn].toString().equals(classes[i])){
+                   count = count +1;
+                }
+                if(count >= last){
+                    mostCommon = i;
+                }
+            }
+            last = count;
+        }
+        
+        
+        //return classification
+        return classes[mostCommon];  //returns the first of the listed classes
     }
     
     //replace true and false with 1 and 0

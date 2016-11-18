@@ -54,7 +54,7 @@ public class Main {
          //KNN
          //House Votes
         System.out.println(HouseVotes.class.getSimpleName());
-        KNN knn = new KNN(houseVotes, houseVotesTestingSet, HouseVotes.classColumn, 3);
+        KNN knn = new KNN(houseVotes, houseVotesTestingSet, HouseVotes.classColumn, 5);
         String[] knnHouseVotes = new String[houseVotesTestingSet.size()];
         for(int i = 0; i < houseVotesTestingSet.size(); i++) {
             knnHouseVotes[i] = knn.classify(houseVotesTestingSet.get(i));
@@ -69,7 +69,7 @@ public class Main {
         
         //Breast Cancer
         System.out.println(BreastCancer.class.getSimpleName());
-        knn = new KNN(breastCancer, breastCancerTestingSet, BreastCancer.classColumn, 3);
+        knn = new KNN(breastCancer, breastCancerTestingSet, BreastCancer.classColumn, 5);
         String[] knnBreastCancer = new String[breastCancerTestingSet.size()];
         for(int i = 0; i < breastCancerTestingSet.size(); i++) {
             knnBreastCancer[i] = knn.classify(breastCancerTestingSet.get(i));
@@ -84,7 +84,7 @@ public class Main {
         
         //Glass
         System.out.println(Glass.class.getSimpleName());
-        knn = new KNN(glass, glassTestingSet, Glass.classColumn, 3);
+        knn = new KNN(glass, glassTestingSet, Glass.classColumn, 8);
         String[] knnGlass = new String[glassTestingSet.size()];
         for(int i = 0; i < glassTestingSet.size(); i++) {
             knnGlass[i] = knn.classify(glassTestingSet.get(i));
@@ -99,7 +99,7 @@ public class Main {
         
         //Iris
         System.out.println(Iris.class.getSimpleName());
-        knn = new KNN(iris, irisTestingSet, Iris.classColumn, 3);
+        knn = new KNN(iris, irisTestingSet, Iris.classColumn, 5);
         String[] knnIris = new String[irisTestingSet.size()];
         for(int i = 0; i < irisTestingSet.size(); i++) {
             knnIris[i] = knn.classify(irisTestingSet.get(i));
@@ -114,7 +114,7 @@ public class Main {
         
         //Soybean
         System.out.println(Soybean.class.getSimpleName());
-        knn = new KNN(soybean, soybeanTestingSet, Soybean.classColumn, 3);
+        knn = new KNN(soybean, soybeanTestingSet, Soybean.classColumn, 5);
         String[] knnSoybean = new String[soybeanTestingSet.size()];
         for(int i = 0; i < soybeanTestingSet.size(); i++) {
             knnSoybean[i] = knn.classify(soybeanTestingSet.get(i));
