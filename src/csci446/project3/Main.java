@@ -6,6 +6,7 @@ import csci446.project3.DataSets.HouseVotes;
 import csci446.project3.DataSets.Soybean;
 import csci446.project3.DataSets.Iris;
 import csci446.project3.ID3.ID3;
+import csci446.project3.NB.NaiveBayes;
 import csci446.project3.Util.DataParser;
 import csci446.project3.Util.DataSet;
 
@@ -50,13 +51,16 @@ public class Main {
         DataSet irisTestingSet = iris.getTestingSet(.1);
         DataSet soybeanTestingSet = soybean.getTestingSet(.1);
 
+        ID3 id3;
+        NaiveBayes nb;
+
         /*
          * Lets setup ID3:
          * DataSet, TestSet, column with the class categorization. (republican, democrat in this case)
          */
 
         System.out.println(HouseVotes.class.getSimpleName());
-        ID3 id3 = new ID3(houseVotes, houseVotesTestingSet, HouseVotes.classColumn);
+        id3 = new ID3(houseVotes, houseVotesTestingSet, HouseVotes.classColumn);
         String[] id3HouseVotes = new String[houseVotesTestingSet.size()];
         for(int i = 0; i < houseVotesTestingSet.size(); i++) {
             id3HouseVotes[i] = id3.classify(houseVotesTestingSet.get(i));
@@ -124,5 +128,26 @@ public class Main {
                 System.out.println("ID3: Incorrect (" + id3Soybean[i] + ", actually " + soybeanTestingSet.get(i)[Soybean.classColumn].value() + ")");
             }
         }
+
+        // Naive Bayes
+//        System.out.println(HouseVotes.class.getSimpleName());
+//        nb = new NaiveBayes(houseVotes, houseVotesTestingSet, HouseVotes.classColumn);
+
+        System.out.println(BreastCancer.class.getSimpleName());
+        nb = new NaiveBayes(breastCancer, breastCancerTestingSet, BreastCancer.classColumn);
+        String[] nbResults = nb.getResults();
+
+        System.out.println(Glass.class.getSimpleName());
+        nb = new NaiveBayes(glass, glassTestingSet, Glass.classColumn);
+        String[] nbGlassResults = nb.getResults();
+
+        System.out.println(Iris.class.getSimpleName());
+        nb = new NaiveBayes(iris, irisTestingSet, Iris.classColumn);
+        String[] nbIrisResults = nb.getResults();
+
+        System.out.println(Soybean.class.getSimpleName());
+        nb = new NaiveBayes(soybean, soybeanTestingSet, Soybean.classColumn);
+        String[] nbSoybeanResults = nb.getResults();
+        System.out.println();
     }
 }
