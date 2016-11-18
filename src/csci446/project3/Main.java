@@ -27,12 +27,12 @@ public class Main {
         DataSet glass = DataParser.parseData(Glass.filename, Glass.columnNames, Glass.dataTypes, Glass.ignoreColumns, Glass.classColumn, Glass.discretizeColumns);
         DataSet iris = DataParser.parseData(Iris.filename, Iris.columnNames, Iris.dataTypes, Iris.ignoreColumns, Iris.classColumn, Iris.discretizeColumns);
         DataSet soybean = DataParser.parseData(Soybean.filename, Soybean.columnNames, Soybean.dataTypes, Soybean.ignoreColumns, Soybean.classColumn, Soybean.discretizeColumns);
-
+        
         /*
          * The contents of the DataSet are not always random.
          * You can shuffle them using Collections.shuffle()
          */
-
+        
         Collections.shuffle(houseVotes);
         Collections.shuffle(breastCancer);
         Collections.shuffle(glass);
@@ -42,6 +42,7 @@ public class Main {
          * Lastly, you want to split the data into a regular dataset and a testing set.
          * DataSet has a function for this, since it gets a little weird.
          * This grabs 10% of the data in the dataset and sets pulls it out to make the testing set.
+         * This also means that the remaining 90% in DataSet can serve as our training set.
          */
 
         DataSet houseVotesTestingSet = houseVotes.getTestingSet(.1);
@@ -49,7 +50,84 @@ public class Main {
         DataSet glassTestingSet = glass.getTestingSet(.1);
         DataSet irisTestingSet = iris.getTestingSet(.1);
         DataSet soybeanTestingSet = soybean.getTestingSet(.1);
-
+        
+         //KNN
+         //House Votes
+        System.out.println(HouseVotes.class.getSimpleName());
+        KNN knn = new KNN(houseVotes, houseVotesTestingSet, HouseVotes.classColumn, 3);
+        String[] knnHouseVotes = new String[houseVotesTestingSet.size()];
+        for(int i = 0; i < houseVotesTestingSet.size(); i++) {
+            knnHouseVotes[i] = knn.classify(houseVotesTestingSet.get(i));
+        }
+        for(int i = 0; i < houseVotesTestingSet.size(); i++) {
+            if(knnHouseVotes[i].equals(houseVotesTestingSet.get(i)[HouseVotes.classColumn].value())) {
+                System.out.println("KNN: Correct (" + knnHouseVotes[i] + ")");
+            } else {
+                System.out.println("KNN: Incorrect (" + knnHouseVotes[i] + ", actually " + houseVotesTestingSet.get(i)[HouseVotes.classColumn].value() + ")");
+            }
+        }
+        
+        //Breast Cancer
+        System.out.println(BreastCancer.class.getSimpleName());
+        knn = new KNN(breastCancer, breastCancerTestingSet, BreastCancer.classColumn, 3);
+        String[] knnBreastCancer = new String[breastCancerTestingSet.size()];
+        for(int i = 0; i < breastCancerTestingSet.size(); i++) {
+            knnBreastCancer[i] = knn.classify(breastCancerTestingSet.get(i));
+        }
+        for(int i = 0; i < breastCancerTestingSet.size(); i++) {
+            if(knnBreastCancer[i].equals(breastCancerTestingSet.get(i)[BreastCancer.classColumn].value())) {
+                System.out.println("KNN: Correct (" + knnBreastCancer[i] + ")");
+            } else {
+                System.out.println("KNN: Incorrect (" + knnBreastCancer[i] + ", actually " + breastCancerTestingSet.get(i)[BreastCancer.classColumn].value() + ")");
+            }
+        }
+        
+        //Glass
+        System.out.println(Glass.class.getSimpleName());
+        knn = new KNN(glass, glassTestingSet, Glass.classColumn, 3);
+        String[] knnGlass = new String[glassTestingSet.size()];
+        for(int i = 0; i < glassTestingSet.size(); i++) {
+            knnGlass[i] = knn.classify(glassTestingSet.get(i));
+        }
+        for(int i = 0; i < glassTestingSet.size(); i++) {
+            if(knnGlass[i].equals(glassTestingSet.get(i)[Glass.classColumn].value())) {
+                System.out.println("KNN: Correct (" + knnGlass[i] + ")");
+            } else {
+                System.out.println("KNN: Incorrect (" + knnGlass[i] + ", actually " + glassTestingSet.get(i)[Glass.classColumn].value() + ")");
+            }
+        }
+        
+        //Iris
+        System.out.println(Iris.class.getSimpleName());
+        knn = new KNN(iris, irisTestingSet, Iris.classColumn, 3);
+        String[] knnIris = new String[irisTestingSet.size()];
+        for(int i = 0; i < irisTestingSet.size(); i++) {
+            knnIris[i] = knn.classify(irisTestingSet.get(i));
+        }
+        for(int i = 0; i < irisTestingSet.size(); i++) {
+            if(knnIris[i].equals(irisTestingSet.get(i)[Iris.classColumn].value())) {
+                System.out.println("KNN: Correct (" + knnIris[i] + ")");
+            } else {
+                System.out.println("KNN: Incorrect (" + knnIris[i] + ", actually " + irisTestingSet.get(i)[Iris.classColumn].value() + ")");
+            }
+        }
+        
+        //Soybean
+        System.out.println(Soybean.class.getSimpleName());
+        knn = new KNN(soybean, soybeanTestingSet, Soybean.classColumn, 3);
+        String[] knnSoybean = new String[soybeanTestingSet.size()];
+        for(int i = 0; i < soybeanTestingSet.size(); i++) {
+            knnSoybean[i] = knn.classify(soybeanTestingSet.get(i));
+        }
+        for(int i = 0; i < soybeanTestingSet.size(); i++) {
+            if(knnSoybean[i].equals(soybeanTestingSet.get(i)[Soybean.classColumn].value())) {
+                System.out.println("KNN: Correct (" + knnSoybean[i] + ")");
+            } else {
+                System.out.println("KNN: Incorrect (" + knnSoybean[i] + ", actually " + soybeanTestingSet.get(i)[Soybean.classColumn].value() + ")");
+            }
+        }
+        
+        
         /*
          * Lets setup ID3:
          * DataSet, TestSet, column with the class categorization. (republican, democrat in this case)
