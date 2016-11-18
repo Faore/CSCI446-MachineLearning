@@ -327,24 +327,115 @@ public class Main {
 
         // Naive Bayes
         NaiveBayes nb;
-//        System.out.println(HouseVotes.class.getSimpleName());
-//        nb = new NaiveBayes(houseVotes, houseVotesTestingSet, HouseVotes.classColumn);
+        System.out.println(HouseVotes.class.getSimpleName());
+        nb = new NaiveBayes(houseVotes, houseVotesTestingSet, HouseVotes.classColumn);
+        String[] nbHouseResults = nb.getResults();
+        for (int i = 0; i < houseVotesTestingSet.size(); i++){
+            if(nbHouseResults[i].equals(houseVotesTestingSet.get(i)[HouseVotes.classColumn].value())){
+                System.out.println("Naive Bayes: Correct (" + nbHouseResults[i] + ")");
+                correct += 1;
+            }else{
+                System.out.println("Naive Bayes: Incorrect (" + nbHouseResults[i] + ", actually " + houseVotesTestingSet.get(i)[HouseVotes.classColumn].value() + ")");
+                incorrect += 1;
+            }
+        }
+        System.out.println("Correctly Classified: " + correct);
+        System.out.println("Incorrectly Classified: " + incorrect);
+        total = correct + incorrect;
+        errorRate = ((float)incorrect) / (float)total;
+        System.out.println("Error Rate: " + errorRate);
+        correct = 0;
+        incorrect = 0;
+        total = 0;
+        errorRate = 0;
 
         System.out.println(BreastCancer.class.getSimpleName());
         nb = new NaiveBayes(breastCancer, breastCancerTestingSet, BreastCancer.classColumn);
         String[] nbResults = nb.getResults();
+        for (int i = 0; i < breastCancerTestingSet.size(); i++){
+            if(nbResults[i].equals(breastCancerTestingSet.get(i)[BreastCancer.classColumn].value())){
+                System.out.println("Naive Bayes: Correct (" + nbResults[i] + ")");
+                correct += 1;
+            }else{
+                System.out.println("Naive Bayes: Incorrect (" + nbResults[i] + ", actually " + breastCancerTestingSet.get(i)[BreastCancer.classColumn].value() + ")");
+                incorrect += 1;
+            }
+        }
+        System.out.println("Correctly Classified: " + correct);
+        System.out.println("Incorrectly Classified: " + incorrect);
+        total = correct + incorrect;
+        errorRate = ((float)incorrect) / (float)total;
+        System.out.println("Error Rate: " + errorRate);
+        correct = 0;
+        incorrect = 0;
+        total = 0;
+        errorRate = 0;
 
         System.out.println(Glass.class.getSimpleName());
         nb = new NaiveBayes(glass, glassTestingSet, Glass.classColumn);
         String[] nbGlassResults = nb.getResults();
+        for (int i = 0; i < glassTestingSet.size(); i++){
+            if(nbGlassResults[i].equals(glassTestingSet.get(i)[Glass.classColumn].value())){
+                System.out.println("Naive Bayes: Correct (" + nbGlassResults[i] + ")");
+                correct += 1;
+            }else{
+                System.out.println("Naive Bayes: Incorrect (" + nbGlassResults[i] + ", actually " + glassTestingSet.get(i)[Glass.classColumn].value() + ")");
+                incorrect += 1;
+            }
+        }
+        System.out.println("Correctly Classified: " + correct);
+        System.out.println("Incorrectly Classified: " + incorrect);
+        total = correct + incorrect;
+        errorRate = ((float)incorrect) / (float)total;
+        System.out.println("Error Rate: " + errorRate);
+        correct = 0;
+        incorrect = 0;
+        total = 0;
+        errorRate = 0;
 
         System.out.println(Iris.class.getSimpleName());
         nb = new NaiveBayes(iris, irisTestingSet, Iris.classColumn);
         String[] nbIrisResults = nb.getResults();
+        for (int i = 0; i < irisTestingSet.size(); i++){
+            if(nbIrisResults[i].equals(irisTestingSet.get(i)[Iris.classColumn].value())){
+                System.out.println("Naive Bayes: Correct (" + nbIrisResults[i] + ")");
+                correct += 1;
+            }else{
+                System.out.println("Naive Bayes: Incorrect (" + nbIrisResults[i] + ", actually " + irisTestingSet.get(i)[Iris.classColumn].value() + ")");
+                incorrect += 1;
+            }
+        }
+        System.out.println("Correctly Classified: " + correct);
+        System.out.println("Incorrectly Classified: " + incorrect);
+        total = correct + incorrect;
+        errorRate = ((float)incorrect) / (float)total;
+        System.out.println("Error Rate: " + errorRate);
+        correct = 0;
+        incorrect = 0;
+        total = 0;
+        errorRate = 0;
 
         System.out.println(Soybean.class.getSimpleName());
         nb = new NaiveBayes(soybean, soybeanTestingSet, Soybean.classColumn);
         String[] nbSoybeanResults = nb.getResults();
+        for (int i = 0; i < soybeanTestingSet.size(); i++){
+            if(nbSoybeanResults[i].equals(soybeanTestingSet.get(i)[Soybean.classColumn].value())){
+                System.out.println("Naive Bayes: Correct (" + nbSoybeanResults[i] + ")");
+                correct += 1;
+            }else{
+                System.out.println("Naive Bayes: Incorrect (" + nbSoybeanResults[i] + ", actually " + soybeanTestingSet.get(i)[BreastCancer.classColumn].value() + ")");
+                incorrect += 1;
+            }
+        }
+        System.out.println("Correctly Classified: " + correct);
+        System.out.println("Incorrectly Classified: " + incorrect);
+        total = correct + incorrect;
+        errorRate = ((float)incorrect) / (float)total;
+        System.out.println("Error Rate: " + errorRate);
+        correct = 0;
+        incorrect = 0;
+        total = 0;
+        errorRate = 0;
         System.out.println();
     }
 }
