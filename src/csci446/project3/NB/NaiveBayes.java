@@ -15,6 +15,8 @@ public class NaiveBayes {
     public NaiveBayes(DataSet dataSet, DataSet testSet, int classColumn){
         this.dataSet = dataSet;
         this.testSet = testSet;
+        replace(dataSet);
+        replace(testSet);
         this.classColumn = classColumn;
         begin();
     }
@@ -154,7 +156,26 @@ public class NaiveBayes {
 //        }
 //        return trainedModel;
 //    }
-    
+
+
+    //replace true and false with 1 and 0
+    public DataSet replace(DataSet temp){
+        for(int i = 0; i< temp.size(); i++){
+            for(int j =0; j<temp.get(i).length; j++){
+                if(temp.get(i)[j].value().equals(true)){
+                    //System.out.println("TRUE");
+                    temp.get(i)[j] = new Data<Integer>(1);
+                    //System.out.println(temp.get(i)[j]);
+                }
+                if(temp.get(i)[j].value().equals(false)){
+                    //System.out.println("FALSE");
+                    temp.get(i)[j] = new Data<Integer>(0);
+                    //System.out.println(temp.get(i)[j]);
+                }
+            }
+        }
+        return temp;
+    }
 }
 
 class SummarizedData
