@@ -6,6 +6,7 @@ import csci446.project3.DataSets.HouseVotes;
 import csci446.project3.DataSets.Soybean;
 import csci446.project3.DataSets.Iris;
 import csci446.project3.ID3.ID3;
+import csci446.project3.NB.NaiveBayes;
 import csci446.project3.Util.DataParser;
 import csci446.project3.Util.DataSet;
 import static java.lang.Math.sqrt;
@@ -323,5 +324,27 @@ public class Main {
         incorrect = 0;
         total = 0;
         errorRate = 0;
+
+        // Naive Bayes
+        NaiveBayes nb;
+//        System.out.println(HouseVotes.class.getSimpleName());
+//        nb = new NaiveBayes(houseVotes, houseVotesTestingSet, HouseVotes.classColumn);
+
+        System.out.println(BreastCancer.class.getSimpleName());
+        nb = new NaiveBayes(breastCancer, breastCancerTestingSet, BreastCancer.classColumn);
+        String[] nbResults = nb.getResults();
+
+        System.out.println(Glass.class.getSimpleName());
+        nb = new NaiveBayes(glass, glassTestingSet, Glass.classColumn);
+        String[] nbGlassResults = nb.getResults();
+
+        System.out.println(Iris.class.getSimpleName());
+        nb = new NaiveBayes(iris, irisTestingSet, Iris.classColumn);
+        String[] nbIrisResults = nb.getResults();
+
+        System.out.println(Soybean.class.getSimpleName());
+        nb = new NaiveBayes(soybean, soybeanTestingSet, Soybean.classColumn);
+        String[] nbSoybeanResults = nb.getResults();
+        System.out.println();
     }
 }

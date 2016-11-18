@@ -5,13 +5,14 @@ import csci446.project3.Util.DataSet;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class NaiveBayes {
     private DataSet dataSet;
     private DataSet testSet;
-//    private Map<String, Double> classProbabilities;
     private int classColumn;
     private String[] results;
+    private Map<String, Integer> classCount;
     public NaiveBayes(DataSet dataSet, DataSet testSet, int classColumn){
         this.dataSet = dataSet;
         this.testSet = testSet;
@@ -22,54 +23,89 @@ public class NaiveBayes {
     }
 
     private void begin() {
-//        this.classProbabilities = classProbabilities();
         Map<String, SummarizedData[]> summaries = summarizeDataByClass();
-        results = makeAllPredictions(summaries, dataSet);
+        results = makeAllPredictions(dataSet);
     }
+
     public String[] getResults(){
         return results;
     }
-    private String makePrediction(Map<String, SummarizedData[]> summaries, Data[] input){
-        Map<String, Double> classProbabilities = getClassProbabilities(summaries, input);
+
+    private String makePrediction(Data[] input, Map<String, double[]> conditionalProbabilities){
         String predictClass = "";
         double bestProbability = -1;
-        for(Map.Entry<String, Double> entry : classProbabilities.entrySet()){
-            double curValue = entry.getValue();
-            if(predictClass.isEmpty() ||  bestProbability < curValue){
+        // Compare all classes and find the best probability
+        for(Map.Entry<String, double[]> entry : conditionalProbabilities.entrySet()){
+            double[] values = entry.getValue();
+            double tmp = 1;
+            for(int i = 0; i < values.length; i++){
+                tmp *= values[i];
+            }
+            if(predictClass.isEmpty() ||  bestProbability < tmp){
                 predictClass = entry.getKey();
-                bestProbability = curValue;
+                bestProbability = tmp;
             }
         }
 
         return predictClass;
     }
 
-    private String[] makeAllPredictions(Map<String, SummarizedData[]> summaries, DataSet dataSet){
+    private String[] makeAllPredictions(DataSet dataSet){
         String[] predictions = new String[dataSet.size()];
-        for(int i = 0; i < predictions.length; i++){
-            predictions[i] = makePrediction(summaries, dataSet.get(i));
+        Map<String, Double> classProbabilities = getClassProbabilities();
+        Map<String, double[]> conditionalProbabilities = getConditionalProbabilities(classProbabilities);
+        // Check all classes
+        int i = 0;
+        // Go through each row of the dataset and make a prediction
+        for (Data<?>[] data : dataSet) {
+            predictions[i] = makePrediction(data, conditionalProbabilities);
+            i++;
         }
+//        for(int i = 0; i < predictions.length; i++){
+//            predictions[i] = makePrediction(summaries, dataSet.get(i));
+//        }
 
         return predictions;
     }
-    private Map<String, Double> getClassProbabilities(Map<String, SummarizedData[]> summaries, Data[] input){
-        Map<String, Double> classProbabilities = new HashMap<>();
-        for(Map.Entry<String, SummarizedData[]> entry : summaries.entrySet()) {
-            SummarizedData[] summarizedData = entry.getValue();
-            double tmpProbability = 1;
-            for(int i = 0; i < summarizedData.length; i++){
-                SummarizedData summary = summarizedData[i];
-                tmpProbability *= probability(input[i], summary.mean, summary.deviation);
+    private Map<String, Double> getClassProbabilities(){
+        classCount = new HashMap<>();
+
+        for(Data<?>[] data : testSet){
+            if(!classCount.containsKey(data[classColumn].toString())){
+                classCount.put(data[classColumn].value().toString(), 0);
             }
-            classProbabilities.put(entry.getKey(), tmpProbability);
+            int tmp = classCount.get(data[classColumn].toString());
+            classCount.put(data[classColumn].value().toString(), tmp+1);
+        }
+        Map<String, Double> classProbabilities = new HashMap<>();
+        for(Map.Entry<String, Integer> entry : classCount.entrySet()) {
+            int count = entry.getValue();
+            double classProb = (double)count / (double) testSet.size();
+            classProbabilities.put(entry.getKey(), classProb);
         }
         return classProbabilities;
     }
-    private double probability(Data value, double average, double deviation){
-        double convertedValue = Double.parseDouble(value.value().toString());
-        double exp = Math.exp(-(Math.pow(convertedValue - average, 2)/(2*Math.pow(deviation, 2))));
-        return (1.0 / (Math.sqrt(2 * Math.PI)) * deviation) * exp;
+    private Map<String, double[]> getConditionalProbabilities(Map<String, Double> classProbabilities){
+        // Get count for each variable with class
+        Map<String, double[]> conditionalProbabilities = new HashMap<>();
+        for(Map.Entry<String, Double> entry : classProbabilities.entrySet()){
+            // TODO: Replace classColumn
+            double[] probabilities = new double[classColumn];
+            for(int i = 0; i < classColumn; i++) {
+                double tmp = 0;
+                for (Data<?>[] data : testSet){
+                    if(Objects.equals(data[classColumn].toString(), entry.getKey())){
+                        tmp += Double.parseDouble(data[i].value().toString());
+                    }
+                }
+                probabilities[i] = (tmp / classCount.get(entry.getKey()).doubleValue());
+            }
+            conditionalProbabilities.put(entry.getKey(), probabilities);
+        }
+
+        return conditionalProbabilities;
     }
+
     private SummarizedData[] summarizeData(DataSet aDataSet) {
         // Go through each column of each row and sum them together
         int columnCount = aDataSet.get(0).length;
@@ -123,7 +159,7 @@ public class NaiveBayes {
         HashMap<String, DataSet> seperatedData = new HashMap<>();
         // Loop through data
         for(Data[] data : testSet){
-            String classValue = (String)data[classColumn].value();
+            String classValue = data[classColumn].value().toString();
             if(!seperatedData.containsKey(classValue)){
                 seperatedData.put(classValue, new DataSet());
             }
@@ -134,47 +170,26 @@ public class NaiveBayes {
         return seperatedData;
     }
 
-//    private Map<String, Double> classProbabilities(){
-//        HashMap<String, Integer> classTotals = new HashMap<>();
-//        HashMap<String, Double> trainedModel = new HashMap<>();
-//        //Iterate through rows of training set
-//        // Add up values when class = 4 and add up values when class = 2
-//        // Class probabilities
-//        for(Data[] row : this.testSet){
-//            String classValue = (String)row[this.classColumn].value();
-//            if(!classTotals.containsKey(classValue)) {
-//                classTotals.put(classValue, 0);
-//            }
-//            int curCount = classTotals.get(classValue);
-//            curCount++;
-//            classTotals.put(classValue, curCount);
-//        }
-//        for(Map.Entry<String, Integer> entry : classTotals.entrySet()){
-//            if(!trainedModel.containsKey(entry.getKey())){
-//                trainedModel.put(entry.getKey(), (double)entry.getValue()/(double)this.testSet.size());
-//            }
-//        }
-//        return trainedModel;
-//    }
-
 
     //replace true and false with 1 and 0
-    public DataSet replace(DataSet temp){
+    private DataSet replace(DataSet temp){
         for(int i = 0; i< temp.size(); i++){
             for(int j =0; j<temp.get(i).length; j++){
                 if(temp.get(i)[j].value().equals(true)){
-                    //System.out.println("TRUE");
                     temp.get(i)[j] = new Data<Integer>(1);
-                    //System.out.println(temp.get(i)[j]);
                 }
                 if(temp.get(i)[j].value().equals(false)){
-                    //System.out.println("FALSE");
                     temp.get(i)[j] = new Data<Integer>(0);
-                    //System.out.println(temp.get(i)[j]);
                 }
             }
         }
         return temp;
+    }
+
+    private void swapClassColumn(DataSet dataSet){
+        if(this.classColumn == 1) {
+
+        }
     }
 }
 
