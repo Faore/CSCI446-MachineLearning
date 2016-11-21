@@ -1,3 +1,6 @@
+****This contains some old results: Naive Bayes had an inverted test set and training set which was fixed for the final results in Sample Runs.validation.txt, TAN is missing here but present in the Sample Runs.validation.txt****
+
+
 HouseVotes
 KNN: Correct (democrat)
 KNN: Incorrect (republican, actually democrat)
