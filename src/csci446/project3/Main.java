@@ -91,7 +91,7 @@ public class Main {
         System.out.print("\tKNN: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -129,10 +129,11 @@ public class Main {
             }
             testResults[test] = (double) correct / ((double)(correct + incorrect)) * 100d;
         }
+        total = 0;
         System.out.print("\tKNN: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -175,7 +176,7 @@ public class Main {
         System.out.print("\tKNN: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -217,7 +218,7 @@ public class Main {
         System.out.print("\tKNN: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -258,7 +259,7 @@ public class Main {
         System.out.print("\tKNN: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -303,7 +304,7 @@ public class Main {
         System.out.print("\tID3: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -343,7 +344,7 @@ public class Main {
         System.out.print("\tID3: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -384,7 +385,7 @@ public class Main {
         System.out.print("\tID3: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -426,7 +427,7 @@ public class Main {
         System.out.print("\tID3: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -468,7 +469,7 @@ public class Main {
         System.out.print("\tNB: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -507,7 +508,7 @@ public class Main {
         System.out.print("\tNB: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -546,7 +547,7 @@ public class Main {
         System.out.print("\tNB: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
@@ -585,7 +586,7 @@ public class Main {
         System.out.print("\tNB: Success Rates: ");
         for (double result : testResults) {
             total += result;
-            System.out.print(result + ", ");
+            System.out.print(result + "%, ");
         }
         total = total/testResults.length;
         System.out.println();
