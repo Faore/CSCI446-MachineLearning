@@ -83,6 +83,9 @@ public class ID3 {
     }
 
     public String classify(Data<?>[] search) {
+        if(this.root == null) {
+            return "FAIL";
+        }
         Node current = this.root;
         Boolean traversed = false;
         while(true) {
@@ -117,7 +120,7 @@ public class ID3 {
                 }
             }
         }
-        if(current.isFeature) {
+        if(current.isFeature && current != root) {
             current = current.parent;
         }
         if(isPure(current)) {

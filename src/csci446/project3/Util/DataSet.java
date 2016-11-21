@@ -62,4 +62,35 @@ public class DataSet extends ArrayList<Data<?>[]> {
         }
         return newSet;
     }
+
+    public DataSet setupEmptySet() {
+        DataSet newSet = new DataSet();
+        newSet.assignColumnNames(this.columnNames);
+        return newSet;
+    }
+
+    public DataSet[] splitSet(int numberOfSets) {
+        DataSet[] newSets = new DataSet[numberOfSets];
+        //Need to split into even sets.
+        int remainder = this.size() % 10;
+        System.out.println(remainder + " datasets will have 1 extra element.");
+        int setSize = (this.size() - remainder)/numberOfSets;
+        int lastIndex = -1;
+        for(int set = 0; set < 10; set++) {
+            //Build the next set.
+            Integer[] indexes = new Integer [setSize];
+            for (int i = 0; i < setSize; i++) {
+                indexes[i] = lastIndex + 1;
+                lastIndex++;
+            }
+            newSets[set] = this.createSubset(indexes);
+        }
+        //Tack on those last few items that didn't fit evenly.
+        for(int i = 0; i < remainder; i++) {
+            newSets[i].add(this.get(lastIndex + 1));
+            lastIndex++;
+        }
+
+        return newSets;
+    }
 }
