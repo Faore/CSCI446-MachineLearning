@@ -9,13 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 public class NaiveBayes {
-    private DataSet dataSet;
-    private DataSet testSet;
-    private int classColumn;
-    private int columnCount;
+    DataSet dataSet;
+    DataSet testSet;
+    int classColumn;
+    int columnCount;
     private String[] results;
-    private Map<String, Integer> classCount;
+    Map<String, Integer> classCount;
     public NaiveBayes(DataSet dataSet, DataSet testSet, int classColumn){
+        // I mistakenly used the full dataSet where I should've used the testSet and vice versa.
+        // Easiest fix was to just switch 'em around here.
         this.dataSet = testSet;
         this.testSet = dataSet;
         replace(dataSet);
