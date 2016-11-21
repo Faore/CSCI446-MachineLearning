@@ -394,6 +394,48 @@ public class Main {
 
 
 
+        //Iris
+        testResults = new double[crossVerSize];
+        System.out.println(Iris.class.getSimpleName());
+        for (int test = 0; test < crossVerSize; test++) {
+            //Prepare the datasets.
+            DataSet irisTestingSet = irisSets[test];
+            DataSet iris = irisTestingSet.setupEmptySet();
+            for (int i = 0; i < crossVerSize; i++) {
+                if (i != test) {
+                    iris.addAll(irisSets[i]);
+                }
+            }
+            //Run the test
+            ID3 id3 = new ID3(iris, irisTestingSet, Iris.classColumn); //Old value of K: 3
+            String[] id3Iris = new String[irisTestingSet.size()];
+            for (int i = 0; i < irisTestingSet.size(); i++) {
+                id3Iris[i] = id3.classify(irisTestingSet.get(i));
+            }
+            int incorrect = 0;
+            int correct = 0;
+            for (int i = 0; i < irisTestingSet.size(); i++) {
+                if (id3Iris[i].equals(irisTestingSet.get(i)[Iris.classColumn].value())) {
+                    correct = correct + 1;
+                } else {
+                    incorrect = incorrect + 1;
+                }
+            }
+            testResults[test] = (double) correct / ((double)(correct + incorrect)) * 100d;
+        }
+        total = 0;
+        System.out.print("\tID3: Success Rates: ");
+        for (double result : testResults) {
+            total += result;
+            System.out.print(result + "%, ");
+        }
+        total = total/testResults.length;
+        System.out.println();
+        System.out.println("\tID3: Avg. Success Rate: " + total);
+        System.out.println();
+
+
+
         //Soybean
         testResults = new double[crossVerSize];
         System.out.println(Soybean.class.getSimpleName());
@@ -497,6 +539,44 @@ public class Main {
             int correct = 0;
             for (int i = 0; i < breastCancerTestingSet.size(); i++) {
                 if (nbBreastCancer[i].equals(breastCancerTestingSet.get(i)[BreastCancer.classColumn].value())) {
+                    correct = correct + 1;
+                } else {
+                    incorrect = incorrect + 1;
+                }
+            }
+            testResults[test] = (double) correct / ((double)(correct + incorrect)) * 100d;
+        }
+        total = 0;
+        System.out.print("\tNB: Success Rates: ");
+        for (double result : testResults) {
+            total += result;
+            System.out.print(result + "%, ");
+        }
+        total = total/testResults.length;
+        System.out.println();
+        System.out.println("\tNB: Avg. Success Rate: " + total);
+        System.out.println();
+
+
+        //Glass
+        testResults = new double[crossVerSize];
+        System.out.println(Glass.class.getSimpleName());
+        for (int test = 0; test < crossVerSize; test++) {
+            //Prepare the datasets.
+            DataSet glassTestingSet = glassSets[test];
+            DataSet glass = glassTestingSet.setupEmptySet();
+            for (int i = 0; i < crossVerSize; i++) {
+                if (i != test) {
+                    glass.addAll(glassSets[i]);
+                }
+            }
+            //Run the test
+            NaiveBayes nb = new NaiveBayes(glass, glassTestingSet, Glass.classColumn); //Old value of K: 3
+            String[] nbGlass = nb.getResults();
+            int incorrect = 0;
+            int correct = 0;
+            for (int i = 0; i < glassTestingSet.size(); i++) {
+                if (nbGlass[i].equals(glassTestingSet.get(i)[Glass.classColumn].value())) {
                     correct = correct + 1;
                 } else {
                     incorrect = incorrect + 1;
